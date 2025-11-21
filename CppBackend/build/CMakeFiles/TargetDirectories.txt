@@ -1,0 +1,3 @@
+/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CppBackend/build/CMakeFiles/SimCamSDK.dir
+/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CppBackend/build/CMakeFiles/edit_cache.dir
+/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CppBackend/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,90 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {}
+  },
+  "projects": {
+    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
+        "projectName": "IndustrialCamGUI",
+        "projectPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
+        "packagesPath": "/Users/umararshid/.nuget/packages/",
+        "outputPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/umararshid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Avalonia": {
+              "target": "Package",
+              "version": "[11.3.9, )"
+            },
+            "Avalonia.Desktop": {
+              "target": "Package",
+              "version": "[11.3.9, )"
+            },
+            "Avalonia.Diagnostics": {
+              "target": "Package",
+              "version": "[11.3.9, )"
+            },
+            "Avalonia.Fonts.Inter": {
+              "target": "Package",
+              "version": "[11.3.9, )"
+            },
+            "Avalonia.Themes.Fluent": {
+              "target": "Package",
+              "version": "[11.3.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.308/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
