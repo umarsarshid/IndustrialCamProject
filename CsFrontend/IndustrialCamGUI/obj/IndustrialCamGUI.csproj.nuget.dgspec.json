@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {}
+    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {}
   },
   "projects": {
-    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {
+    "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
+        "projectUniqueName": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
         "projectName": "IndustrialCamGUI",
-        "projectPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
+        "projectPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCamProject/CsFrontend/IndustrialCamGUI/IndustrialCamGUI.csproj",
         "packagesPath": "/Users/umararshid/.nuget/packages/",
-        "outputPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCameraProject/IndustrialCamProject/CsFrontend/IndustrialCamGUI/obj/",
+        "outputPath": "/Users/umararshid/Programming/IndustrialCameraSDK/IndustrialCamProject/CsFrontend/IndustrialCamGUI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/umararshid/.nuget/NuGet/NuGet.Config"
