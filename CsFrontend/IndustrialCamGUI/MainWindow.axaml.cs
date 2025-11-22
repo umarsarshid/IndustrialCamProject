@@ -94,9 +94,10 @@ namespace IndustrialCamGUI
         }
 
         // Matches Click="OnBugToggle"
-        private void OnBugToggle(object sender, RoutedEventArgs e)
-        {
-            // Logic will be added 
+        private void OnBugToggle(object sender, RoutedEventArgs e) {
+            _bugActive = !_bugActive;
+            CamWrapper.SetBugState(_bugActive);
+            BtnBug.Content = _bugActive ? "LEAKING..." : "⚠ Simulate Leak";
         }
-    }
+            }
 }
