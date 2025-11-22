@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IndustrialCamGUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d1e29b0bb937e9ddf61d8f5dcea114017f26b7a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20a526d73ab8018364afde3e864cfc70df930a99")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndustrialCamGUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndustrialCamGUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

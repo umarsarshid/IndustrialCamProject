@@ -14,18 +14,18 @@ namespace IndustrialCamGUI
         // --- 1. CLASS-LEVEL VARIABLES (State) ---
         private const int WIDTH = 640;
         private const int HEIGHT = 480;
-        private WriteableBitmap _bmp;
-        private DispatcherTimer _timer;
+        private WriteableBitmap? _bmp;
+        private DispatcherTimer? _timer;
         private bool _isConnected = false;
         private bool _bugActive = false;
 
         // --- UI CONTROL REFERENCES (The Fix) ---
         // We declare these explicitly so we don't rely on "Magic" binding
-        private Button _btnConnect;
-        private Button _btnTrigger;
-        private Button _btnBug;
-        private CheckBox _chkTrigger;
-        private Image _cameraFeed;
+        private Button? _btnConnect;
+        private Button? _btnTrigger;
+        private Button? _btnBug;
+        private CheckBox? _chkTrigger;
+        private Image? _cameraFeed;
         // Note: We don't strictly need the slider reference for logic, 
         // but good practice to have if we wanted to reset it programmatically.
 
@@ -46,8 +46,10 @@ namespace IndustrialCamGUI
             _bmp = new WriteableBitmap(new PixelSize(WIDTH, HEIGHT), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Opaque);
             
             // Use the manually found reference
-            _cameraFeed.Source = _bmp;
-
+            if (_cameraFeed != null)
+            {
+                _cameraFeed.Source = _bmp;
+            }
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(33); 
             _timer.Tick += GameLoop;
@@ -62,23 +64,26 @@ namespace IndustrialCamGUI
                 _isConnected = true;
                 
                 // Use the manual references (Fixes NullReferenceException)
-                _btnConnect.Content = "Connected";
-                _btnConnect.IsEnabled = false; 
-                
-                _timer.Start(); 
+                // Safety check using '?'
+                if (_btnConnect != null)
+                {
+                    _btnConnect.Content = "Connected";
+                    _btnConnect.IsEnabled = false; 
+                }
+                _timer?.Start(); 
             }
         }
 
         private void GameLoop(object? sender, EventArgs e)
         {
-            if (!_isConnected) return;
+            if (!_isConnected || _bmp == null) return;
 
             using (var buffer = _bmp.Lock())
             {
                 CamWrapper.GetFrame(buffer.Address, WIDTH, HEIGHT);
             }
             // Use the manual reference
-            _cameraFeed.InvalidateVisual();
+            _cameraFeed?.InvalidateVisual();
         }
         // Add event handlers
         private void OnExposureChanged(object sender, RangeBaseValueChangedEventArgs e) {
@@ -86,7 +91,11 @@ namespace IndustrialCamGUI
         }
         private void OnTriggerModeChanged(object sender, RoutedEventArgs e) {
             bool mode = ChkTrigger.IsChecked ?? false;
-            BtnTrigger.IsEnabled = mode;
+            if (_btnTrigger != null)
+            {
+                _btnTrigger.IsEnabled = mode; 
+            }
+            
             if (_isConnected) CamWrapper.SetTriggerMode(mode);
         }
         private void OnSoftwareTrigger(object sender, RoutedEventArgs e) {
@@ -97,7 +106,10 @@ namespace IndustrialCamGUI
         private void OnBugToggle(object sender, RoutedEventArgs e) {
             _bugActive = !_bugActive;
             CamWrapper.SetBugState(_bugActive);
-            BtnBug.Content = _bugActive ? "LEAKING..." : "⚠ Simulate Leak";
-        }
+            if (_btnBug != null)
+            {
+                _btnBug.Content = _bugActive ? "LEAKING..." : "⚠ Simulate Leak";
             }
+        }
+    }
 }
