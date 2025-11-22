@@ -1,5 +1,6 @@
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives; // <--- CRITICAL for Slider events
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -11,66 +12,73 @@ namespace IndustrialCamGUI
     public partial class MainWindow : Window
     {
         // --- 1. CLASS-LEVEL VARIABLES (State) ---
-        
-        // Constants for image size (Must match C++ logic)
         private const int WIDTH = 640;
         private const int HEIGHT = 480;
-
-        // The bitmap buffer that connects UI to C++ memory
         private WriteableBitmap _bmp;
-
-        // The loop timer (runs at ~30 FPS)
         private DispatcherTimer _timer;
-
-        // State flags
         private bool _isConnected = false;
         private bool _bugActive = false;
+
+        // --- UI CONTROL REFERENCES (The Fix) ---
+        // We declare these explicitly so we don't rely on "Magic" binding
+        private Button _btnConnect;
+        private Button _btnTrigger;
+        private Button _btnBug;
+        private CheckBox _chkTrigger;
+        private Image _cameraFeed;
+        // Note: We don't strictly need the slider reference for logic, 
+        // but good practice to have if we wanted to reset it programmatically.
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // --- MANUAL CONTROL LOOKUP ---
+            // This creates the hard link between XAML names and C# variables.
+            // If these are null, your XAML "Name" tags don't match these strings.
+            _btnConnect = this.FindControl<Button>("BtnConnect");
+            _btnTrigger = this.FindControl<Button>("BtnTrigger");
+            _btnBug = this.FindControl<Button>("BtnBug");
+            _chkTrigger = this.FindControl<CheckBox>("ChkTrigger");
+            _cameraFeed = this.FindControl<Image>("CameraFeed");
+
+            // --- INITIALIZATION ---
+            _bmp = new WriteableBitmap(new PixelSize(WIDTH, HEIGHT), new Vector(96, 96), PixelFormat.Rgba8888, AlphaFormat.Opaque);
+            
+            // Use the manually found reference
+            _cameraFeed.Source = _bmp;
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromMilliseconds(33); 
+            _timer.Tick += GameLoop;
         }
 
-        // --- STUB FUNCTIONS TO SATISFY THE XAML COMPILER ---
+        // --- EVENT HANDLERS ---
 
-        // Matches Click="OnConnect"
-        // 1. Connection Handler
-        // This initializes the hardware link when the user clicks "Connect".
-        private void OnConnect(object sender, RoutedEventArgs e) {
-            
-            // Attempt to initialize the backend driver via the DLL.
-            // Index '0' is the default system webcam. (Use '1' if you have an external USB cam).
-            if (CamWrapper.InitCamera(0)) { 
-                
+        private void OnConnect(object sender, RoutedEventArgs e)
+        {
+            if (CamWrapper.InitCamera(0))
+            {
                 _isConnected = true;
                 
-                // Start the "Game Loop" (Polling Timer).
-                // We use a timer to poll the camera at ~30 FPS. 
-                // This ensures the UI thread controls the render speed and doesn't get flooded by the hardware.
+                // Use the manual references (Fixes NullReferenceException)
+                _btnConnect.Content = "Connected";
+                _btnConnect.IsEnabled = false; 
+                
                 _timer.Start(); 
             }
         }
 
-        // 2. The Main Data Loop (Ticks every ~33ms)
-        // This is the critical "Hot Path" where data moves from Unmanaged -> Managed memory.
-        private void GameLoop(object? sender, EventArgs e) {
-            
-            // Safety check: Don't request data if the hardware isn't ready.
+        private void GameLoop(object? sender, EventArgs e)
+        {
             if (!_isConnected) return;
 
-            // CRITICAL: Lock the WriteableBitmap.
-            // This creates a "Memory Fence" that does two things:
-            // 1. It gives us a raw pointer (IntPtr) to the pixel buffer.
-            // 2. It pins the memory, preventing the C# Garbage Collector from moving it while C++ is writing.
-            using (var buffer = _bmp.Lock()) {
-                
-                // Pass the raw memory address to C++.
-                // The C++ DLL will 'memcpy' the pixel data directly to this address.
-                // This avoids creating a second copy of the image, keeping latency low.
+            using (var buffer = _bmp.Lock())
+            {
                 CamWrapper.GetFrame(buffer.Address, WIDTH, HEIGHT);
             }
-            
-            // Now that the buffer is updated and unlocked, force a UI redraw.
-            CameraFeed.InvalidateVisual(); 
+            // Use the manual reference
+            _cameraFeed.InvalidateVisual();
         }
         private void OnExposureChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
