@@ -5,6 +5,9 @@
 #define EXPORT __attribute__((visibility("default")))
 
 cv::VideoCapture capture;
+bool isTriggerMode = false;
+bool triggerSignal = false;
+int exposureValue = 50;
 
 extern "C" {
     // Initialize Camera with Mac-specific driver
@@ -19,8 +22,10 @@ extern "C" {
         capture.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
         return true;
     }
-    // ... inside extern "C" ...
-
+    EXPORT void SetExposure(int value) { exposureValue = value; }
+    EXPORT void SetTriggerMode(bool enabled) { isTriggerMode = enabled; }
+    EXPORT void SoftwareTrigger() { triggerSignal = true; }
+    
     // The Main Data Pump
     // Param 'outBuffer': A pointer to memory allocated by C# (The Application Layer).
     //                    We DO NOT allocate memory here; we just fill what C# gave us.
@@ -30,17 +35,22 @@ extern "C" {
         // 1. Hardware Check
         // Ensure the camera is actually on. If we try to grab from a closed camera, we crash.
         if (!capture.isOpened()) return 0;
-        
+        if (isTriggerMode && !triggerSignal) return 0; // 1. Block if waiting
         // 2. Capture
         // Create a local matrix and ask the driver for the latest image.
         cv::Mat frame;
         capture >> frame;
         
-        // 3. Validation
+        // Validation
         // Sometimes hardware sends empty packets. If so, abort immediately.
         if (frame.empty()) return 0;
+        if (isTriggerMode) triggerSignal = false;      // 2. Reset signal
 
-        // 4. Buffer Safety (Crucial Step)
+        // Exposure Math
+        double alpha = exposureValue / 50.0;
+        frame.convertTo(frame, -1, alpha, 0);
+
+        // Buffer Safety (Crucial Step)
         // The camera might be 1080p, but C# might only expect 640x480.
         // If we try to write 1080p data into a 640x480 buffer, we cause a Buffer Overflow.
         // We strictly resize the image to match what C# requested.

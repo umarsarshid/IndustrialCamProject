@@ -80,21 +80,17 @@ namespace IndustrialCamGUI
             // Use the manual reference
             _cameraFeed.InvalidateVisual();
         }
-        private void OnExposureChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            // Logic will be added 
+        // Add event handlers
+        private void OnExposureChanged(object sender, RangeBaseValueChangedEventArgs e) {
+            if (_isConnected) CamWrapper.SetExposure((int)e.NewValue);
         }
-
-        // Matches IsCheckedChanged="OnTriggerModeChanged"
-        private void OnTriggerModeChanged(object sender, RoutedEventArgs e)
-        {
-            // Logic will be added 
+        private void OnTriggerModeChanged(object sender, RoutedEventArgs e) {
+            bool mode = ChkTrigger.IsChecked ?? false;
+            BtnTrigger.IsEnabled = mode;
+            if (_isConnected) CamWrapper.SetTriggerMode(mode);
         }
-
-        // Matches Click="OnSoftwareTrigger"
-        private void OnSoftwareTrigger(object sender, RoutedEventArgs e)
-        {
-            // Logic will be added 
+        private void OnSoftwareTrigger(object sender, RoutedEventArgs e) {
+            if (_isConnected) CamWrapper.SoftwareTrigger();
         }
 
         // Matches Click="OnBugToggle"
