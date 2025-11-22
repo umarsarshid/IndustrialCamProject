@@ -50,7 +50,8 @@ extern "C" {
         // CRITICAL: OpenCV uses 3 channels (BGR). Avalonia/WPF uses 4 channels (BGRA).
         // If we skip this, the image will look "slanted" or scrambled because 
         // the byte alignment (stride) will be off by 1 byte per pixel.
-        cv::cvtColor(frame, frame, cv::COLOR_BGR2BGRA);
+        //came out bluue so // We convert BGR -> RGBA (Swaps Blue and Red, adds Alpha)
+        cv::cvtColor(frame, frame, cv::COLOR_BGR2RGBA);
 
         // 6. Calculate Size
         // Width * Height * 4 bytes (Blue, Green, Red, Alpha)
